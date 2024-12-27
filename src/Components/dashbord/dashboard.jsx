@@ -23,7 +23,7 @@ const Dashboard = () => {
         };
         getUserData();
       } else {
-        navigate("/login");
+        navigate("/");
       }
     });
   }, [navigate]);
