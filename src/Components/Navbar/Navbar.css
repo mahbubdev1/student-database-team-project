@@ -1,0 +1,20 @@
+
+
+  .btn-active {
+    background-color: #15803d;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font: 600px;
+    border-radius: 12px;
+    border: 2px solid rgb(238, 241, 238);
+    
+  }
+  .btn {
+    background-color: transparent;
+    color: black;
+    font-size: 15px;
+    border: 2px solid white;
+  }

@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "name": "Md. Khurshed Alam",
+        "student":"Sherpur Polytechnic Institute",
+        "email": "khurshed.dev@gmail.com",
+        "phone": "01848306382",
+        "image": "https://i.ibb.co.com/pJhK6Tw/Md-Khurshed-Alam-Md-Khurshed-Alam.png",
+        "title": "Front-End Focused MEARN Stack Developer"
+    },
+    {
+        "id": 2,
+        "name": "Kausar Mia",
+        "student":"Sherpur Polytechnic Institute",
+        "email": "mdkousarmia71@gmail.com",
+        "phone": "01786876781",
+        "image": "https://i.ibb.co.com/T8kdgWK/Untitled-1-copy-MD-kousar-Mia.jpg",
+        "title": "Front-End Focused MEARN Stack Developer"
+    },
+    {
+        "id": 3,
+        "name": "Md Mahbub Alam Antor",
+        "student":"Sherpur Polytechnic Institute",
+        "email": "mdmahbubalam573125@gmail.com",
+        "phone": "01987698735",
+        "image": "https://i.ibb.co.com/wJtswPY/my-Own-Picture.jpg",
+        "title": "Front-End Focused MEARN Stack Developer"
+    },
+    {
+        "id": 4,
+        "name": "Habibullah Habib",
+        "student":"Sherpur Polytechnic Institute",
+        "email": "habibur88454@gmail.com",
+        "phone": "01779888454",
+        "image": "https://i.ibb.co.com/d0qZzz0/img-Habibur-Rahman-Habib.png",
+        "title": "MERN Stack Developer"
+    },
+    {
+        "id": 5,
+        "name": "Md Zihad Mia",
+        "student":"Sherpur Polytechnic Institute",
+        "email": "zihadmia5731@gmail.com",
+        "phone": "01998582338",
+        "image": "https://i.ibb.co.com/v4VkQX2/MDZihad-Md-Zihad-Mia.jpg",
+        "title": "MERN Stack Developer"
+    }
+]
