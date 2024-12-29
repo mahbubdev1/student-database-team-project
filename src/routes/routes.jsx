@@ -6,7 +6,7 @@ import Registration from "../Components/Registration/Registration";
 import MainLayout from '../Components/mainLayout/MainLayout';
 import Login from "../Components/Login/Login";
 import Dashboard from "../Components/dashbord/dashboard";
-
+import CVMaker from "../Components/Cvmaker/cvmaker"
 
 
 const routes = createBrowserRouter([
@@ -37,11 +37,15 @@ const routes = createBrowserRouter([
                 path: "/login",
                 element: <Login></Login>
             },
+            
             {
                 path: "/dashbord",
                 element: <Dashboard></Dashboard>
             },
-            
+            {
+                path: "/cv",
+                element: <CVMaker></CVMaker>
+            },
            
         ],
     },

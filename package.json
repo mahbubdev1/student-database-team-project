@@ -13,6 +13,8 @@
     "@emotion/react": "^11.14.0",
     "aos": "^2.3.4",
     "firebase": "^11.1.0",
+    "html2pdf": "^0.0.11",
+    "jspdf": "^2.5.2",
     "localforage": "^1.10.0",
     "match-sorter": "^8.0.0",
     "react": "^18.3.1",
