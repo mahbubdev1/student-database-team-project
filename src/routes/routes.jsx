@@ -8,6 +8,8 @@ import Login from "../Components/Login/Login";
 import Dashboard from "../Components/dashbord/dashboard";
 import CVMaker from "../Components/Cvmaker/cvmaker";
 import TecStuJoin from "../Components/joinpage/join";
+import AboutUs from "../Components/AboutUs/AboutUs";
+import FeedBack from "../Components/FeedBack/FeedBack";
 
 
 const routes = createBrowserRouter([
@@ -51,6 +53,14 @@ const routes = createBrowserRouter([
                 path: "/join",
                 element: <TecStuJoin></TecStuJoin>
             },
+            {
+                path: '/about',
+                element: <AboutUs></AboutUs>
+            },
+            {
+                path: '/feedBack',
+                element: <FeedBack></FeedBack>
+            }
            
         ],
     },

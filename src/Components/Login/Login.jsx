@@ -6,6 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import img from "../../assets/login2.png";
 import SocialLogin from "../SocialLogin";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
@@ -20,8 +21,8 @@ const Login = () => {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            alert("Login successful!");
-            navigate("/dashbord");
+            toast.success('Login Successful !!')
+            navigate("/");
         } catch (err) {
             setError(err.message);
         }

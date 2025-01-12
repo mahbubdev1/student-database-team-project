@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { IoClose } from "react-icons/io5";
 import img from "../../assets/register4.png";
 import SocialLogin from "../SocialLogin";
+import { toast } from "react-toastify";
 
 const ROLES = {
   student: [
@@ -76,6 +77,7 @@ const TecStuJoin = () => {
       });
 
       navigate("/");
+      toast.success('Student Add Successful...')
     } catch (error) {
       setError(error.message);
     }
@@ -97,7 +99,7 @@ const TecStuJoin = () => {
           </div>
           <div>
             <div className="text-center space-y-1 mb-4">
-              <h3 className="text-4xl font-bold">Sign Up</h3>
+              <h3 className="text-4xl font-bold">Register</h3>
               <p className="font-medium">Complete your profile</p>
             </div>
             {error && <p className="text-red-600 text-center">{error}</p>}
@@ -107,11 +109,10 @@ const TecStuJoin = () => {
                 {Object.keys(ROLES).map((r) => (
                   <button
                     key={r}
-                    className={`px-8 py-4 rounded-md ${
-                      r === "student"
+                    className={`px-8 py-4 rounded-md ${r === "student"
                         ? "bg-blue-500 text-white"
                         : "bg-green-500 text-white"
-                    }`}
+                      }`}
                     onClick={() => setRole(r)}
                   >
                     Join as {r.charAt(0).toUpperCase() + r.slice(1)}
@@ -145,21 +146,6 @@ const TecStuJoin = () => {
                   <button className="bg-gradient-to-r from-cyan-500 to-blue-500 px-8 py-5 text-white font-bold">
                     Submit
                   </button>
-                </div>
-
-                <div className="divider text-gray-400">Login With</div>
-                <SocialLogin />
-
-                <div className="mt-3 text-center font-medium text-gray-500 text-lg">
-                  <p>
-                    Already have an account? Go to{" "}
-                    <Link
-                      to="/login"
-                      className="text-blue-500 hover:text-green-500"
-                    >
-                      Login
-                    </Link>
-                  </p>
                 </div>
               </form>
             )}

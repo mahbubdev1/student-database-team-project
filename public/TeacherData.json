@@ -1,18 +1,5 @@
 [
     {
-        "id": 2,
-        "name": "Syed Kamrul Hasan",
-        "designation": "Chief Instructor",
-        "faculty": "Computer Science and Technology",
-        "department": "Computer Science and Technology",
-        "email": "skhmoegov@gmail.com",
-        "batch": "0",
-        "office_phone": "+880 1716-553242",
-        "personal_phone": "+880 1716-553242",
-        "roomNo": "102",
-        "img": "https://i.ibb.co.com/tqP7bCB/kamrul-hasan.jpg"
-    },
-    {
         "id": 3,
         "name": "Md. Mehedi Hasan",
         "designation": "Instructor (Tech)",
@@ -23,7 +10,7 @@
         "office_phone": "+880 1771-752777",
         "personal_phone": "+880 1771-752777",
         "roomNo": "103",
-        "img": "https://i.ibb.co.com/602cDLH/mehedi-hasan.png"
+        "img": "https://i.ibb.co.com/6Dg5Hmx/mededi.jpg"
     },
     {
         "id": 4,
@@ -53,7 +40,7 @@
     },
     {
         "id": 6,
-        "name": "Md. Jahidul Islam",
+        "name": "Md. Zahidul Islam",
         "designation": "Junior Instructor",
         "faculty": "Computer Science and Technology",
         "department": "Computer Science and Technology",
@@ -91,8 +78,21 @@
         "img": "https://i.ibb.co.com/xD8mb0R/dipok.jpg"
     },
     {
+        "id": 2,
+        "name": "Ahammad Ali",
+        "designation": "Junior Instructor",
+        "faculty": "Computer Science and Technology",
+        "department": "Computer Science and Technology",
+        "email": "skhmoegov@gmail.com",
+        "batch": "0",
+        "office_phone": "+880 1716-553242",
+        "personal_phone": "+880 1716-553242",
+        "roomNo": "102",
+        "img": "https://i.ibb.co.com/3rQ9xV7/ac7bbf03-5c7a-4134-ad2a-31c030e528dc.jpg"
+    },
+    {
         "id": 9,
-        "name": "Md. Al-Amin",
+        "name": "Md Sohanur Rahman Sohag",
         "designation": "Craft Instructor (SOP) Computer",
         "faculty": "Computer Science and Technology",
         "department": "Computer Science and Technology",
@@ -101,20 +101,7 @@
         "office_phone": "+880 1521-108640",
         "personal_phone": "+880 1521-108640",
         "roomNo": "",
-        "img": "https://i.ibb.co.com/SfXBy8Q/al-amin.jpg"
-    },
-    {
-        "id": 10,
-        "name": "Md. Golam Mostafa",
-        "designation": "Researcher",
-        "faculty": "Computer Science and Technology",
-        "department": "Computer Science and Technology",
-        "email": "engrmostofatech@gmail.com",
-        "batch": "",
-        "office_phone": "+880 1917-608751",
-        "personal_phone": "+880 1917-608751",
-        "roomNo": "403",
-        "img": "https://i.ibb.co.com/JrhJxyd/user.png"
+        "img": "https://i.ibb.co.com/mt6Hgwy/shohag.png"
     },
     {
         "id": 11,

@@ -77,33 +77,36 @@ const Teachers = props => {
                     </ul>
                 </div>
                 <div className="dropdown dropdown-bottom sm:hidden">
-                    <div tabIndex={0} role="button" className="bg-purple-500 text-base font-semibold text-white p-3 rounded-xl">
-                        Sort By Teacher
-                    </div>
                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] space-y-3 w-52 p-2 shadow">
                         <FilterButton status="all" label="All Teachers" activeShift={activeShift} onClick={handleTeacherCategory} />
-                        <FilterButton status="Instructor" label="Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        {/* <FilterButton status="Instructor" label="Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
                         <FilterButton status="Junior Instructor" label="Junior Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
                         <FilterButton status="Craft Instructor" label="Craft Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
-                        <FilterButton status="Non-Tech" label="Non-Tech" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Non-Tech" label="Non-Tech" activeShift={activeShift} onClick={handleTeacherCategory} /> */}
+                        <FilterButton status="Computer Science and Technology" label="Computer Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Electronics Technology" label="Electronics Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Electrical Technology" label="Electrical Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Civil Technology" label="Civil Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Environmental Technology" label="Environmental Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
                     </ul>
                 </div>
                 <div className="max-sm:hidden sm:flex gap-4">
-                    <FilterButton status="Computer Science and Technology" label="Computer Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
-                    <FilterButton status="Electronics Technology" label="Electronics Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
-                    <FilterButton status="Electrical Technology" label="Electrical Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
-                    <FilterButton status="Civil Technology" label="Civil Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
-                    <FilterButton status="Environmental Technology" label="Environmental Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+
                 </div>
             </div>
             <div className='sm:flex gap-5'>
                 <div className='w-1/5 mt-5 sm:mt-10'>
                     <div className='space-y-3 max-sm:hidden space-x-1'>
                         <FilterButton status="all" label="All Teachers" activeShift={activeShift} onClick={handleTeacherCategory} />
-                        <FilterButton status="Instructor" label="Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        {/* <FilterButton status="Instructor" label="Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
                         <FilterButton status="Junior Instructor" label="Junior Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
                         <FilterButton status="Craft Instructor" label="Craft Instructor" activeShift={activeShift} onClick={handleTeacherCategory} />
-                        <FilterButton status="Non-Tech" label="Non-Tech" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Non-Tech" label="Non-Tech" activeShift={activeShift} onClick={handleTeacherCategory} /> */}
+                        <FilterButton status="Computer Science and Technology" label="Computer Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Electronics Technology" label="Electronics Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Electrical Technology" label="Electrical Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Civil Technology" label="Civil Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
+                        <FilterButton status="Environmental Technology" label="Environmental Technology" activeShift={activeShift} onClick={handleTeacherCategory} />
                     </div>
                 </div>
                 <div className='w-full sm:w-5/6 mt-5 sm:mt-10'>

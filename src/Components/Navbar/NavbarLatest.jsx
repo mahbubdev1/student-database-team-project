@@ -12,7 +12,7 @@ const NavbarLatest = () => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false); // Track if user has submitted their form
   const [userRole, setUserRole] = useState(null); // Track user's role (student or teacher)
   const navigate = useNavigate();
-console.log(isFormSubmitted)
+  console.log(isFormSubmitted)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -87,9 +87,36 @@ console.log(isFormSubmitted)
               tabIndex={0}
               className="bg-[rgb(37,168,214)] text-white menu menu-sm dropdown-content rounded-box z-50 mt-3 space-y-3 w-60 p-6 shadow"
             >
-              <NavLink to="/" className="mr-8 text-base font-medium">Home</NavLink>
-              <NavLink to="/students" className="mr-8 text-base font-medium">Students</NavLink>
-              <NavLink to="/teachers" className="mr-8 text-base font-medium">Teachers</NavLink>
+              <NavLink
+                to="/"
+                className="mr-8 text-base font-medium"
+                style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+                Home
+              </NavLink>
+              <NavLink
+                to="/students"
+                className="mr-8 text-base font-medium"
+                style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+                Students
+              </NavLink>
+              <NavLink
+                to="/teachers"
+                className="mr-8 text-base font-medium"
+                style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+                Teachers
+              </NavLink>
+              <NavLink
+                to="/about"
+                className="mr-8 text-base font-medium"
+                style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+                About
+              </NavLink>
+              <NavLink
+                to="/feedBack"
+                className="mr-8 text-base font-medium"
+                style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+                FeedBack
+              </NavLink>
             </ul>
           </div>
           <Link to="/" className="flex items-center gap-2">
@@ -98,9 +125,37 @@ console.log(isFormSubmitted)
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <NavLink to="/" className="mr-8 text-base font-medium">Home</NavLink>
-            <NavLink to="/students" className="mr-8 text-base font-medium">Students</NavLink>
-            <NavLink to="/teachers" className="mr-8 text-base font-medium">Teachers</NavLink>
+            <NavLink
+              to="/"
+              className="mr-8 text-base font-medium"
+              style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+              Home
+            </NavLink>
+            <NavLink
+              to="/students"
+              className="mr-8 text-base font-medium"
+              style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+              Students
+            </NavLink>
+            <NavLink
+              to="/teachers"
+              className="mr-8 text-base font-medium"
+              style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+              Teachers
+            </NavLink>
+            <NavLink
+              to="/about"
+              className="mr-8 text-base font-medium"
+              style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+              About
+            </NavLink>
+            <NavLink
+              to="/feedBack"
+              className="mr-8 text-base font-medium"
+              style={({ isActive }) => isActive ? { borderBottom: '2px solid white' } : {}}>
+              FeedBack
+            </NavLink>
+
           </ul>
         </div>
         <div className="navbar-end gap-3 flex items-center">
@@ -115,7 +170,7 @@ console.log(isFormSubmitted)
                   Join
                 </button>
               )}
-              
+
               {/* Show the Dashboard button if the user has submitted their data */}
               {isFormSubmitted && (
                 <Link to="/dashbord">
