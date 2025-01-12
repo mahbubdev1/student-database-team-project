@@ -6,7 +6,8 @@ import Registration from "../Components/Registration/Registration";
 import MainLayout from '../Components/mainLayout/MainLayout';
 import Login from "../Components/Login/Login";
 import Dashboard from "../Components/dashbord/dashboard";
-import CVMaker from "../Components/Cvmaker/cvmaker"
+import CVMaker from "../Components/Cvmaker/cvmaker";
+import TecStuJoin from "../Components/joinpage/join";
 
 
 const routes = createBrowserRouter([
@@ -45,6 +46,10 @@ const routes = createBrowserRouter([
             {
                 path: "/cv",
                 element: <CVMaker></CVMaker>
+            },
+            {
+                path: "/join",
+                element: <TecStuJoin></TecStuJoin>
             },
            
         ],

@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [editData, setEditData] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const [userRole, setUserRole] = useState(null); // Track user role
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,13 +16,18 @@ const Dashboard = () => {
       const user = auth.currentUser;
       if (user) {
         try {
-          const docRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setUserData(docSnap.data());
-            setEditData(docSnap.data());
-          } else {
-            console.error("No user data found!");
+          // Determine which collection to check based on role
+          const roles = ["users", "teachers"];
+          for (let role of roles) {
+            const docRef = doc(db, role, user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              setUserData(data);
+              setEditData(data);
+              setUserRole(role); // Determine the role of the user
+              break;
+            }
           }
         } catch (error) {
           console.error("Error fetching user data:", error.message);
@@ -41,7 +47,7 @@ const Dashboard = () => {
   const handleSaveChanges = async () => {
     if (auth.currentUser) {
       try {
-        const docRef = doc(db, "users", auth.currentUser.uid);
+        const docRef = doc(db, userRole, auth.currentUser.uid); // Save changes based on role
         await updateDoc(docRef, editData);
         setUserData(editData);
         setIsEditing(false);
@@ -67,10 +73,10 @@ const Dashboard = () => {
       );
       if (confirmDelete) {
         try {
-          const userDocRef = doc(db, "users", auth.currentUser.uid);
+          const userDocRef = doc(db, userRole, auth.currentUser.uid);
           await deleteDoc(userDocRef); // Delete user document from Firestore
           await deleteUser(auth.currentUser); // Delete user from Firebase Authentication
-          navigate("/signup"); // Redirect to signup
+          navigate("/signup");
         } catch (error) {
           console.error("Error deleting account:", error.message);
         }
@@ -122,34 +128,6 @@ const Dashboard = () => {
                     />
                   ) : (
                     <p className="mt-2">{userData.email}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="font-semibold">Roll:</label>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="roll"
-                      value={editData.roll || ""}
-                      onChange={handleEditChange}
-                      className="input input-bordered w-full mt-2"
-                    />
-                  ) : (
-                    <p className="mt-2">{userData.roll}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="font-semibold">Registration:</label>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="registration"
-                      value={editData.registration || ""}
-                      onChange={handleEditChange}
-                      className="input input-bordered w-full mt-2"
-                    />
-                  ) : (
-                    <p className="mt-2">{userData.registration}</p>
                   )}
                 </div>
                 <div>
@@ -208,28 +186,30 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Feature Tile Section */}
-          <div className="bg-white shadow-lg rounded-lg p-6">
-            <h3 className="text-xl font-bold text-center mb-4">Features</h3>
-            <div className="space-y-4">
-              <button
-                onClick={() => navigate("/cv", { state: userData })}
-                className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
-              >
-                <img
-                  src="https://i.postimg.cc/4ys9g4qK/image.png"
-                  alt="CV Maker Icon"
-                  className="w-10 h-10 rounded-full"
-                />
-                <div>
-                  <h4 className="font-bold text-lg">Make CV</h4>
-                  <p className="text-sm text-gray-600">
-                    Create and customize your CV
-                  </p>
-                </div>
-              </button>
+          {/* Features Section for Students */}
+          {userRole === "users" && (
+            <div className="bg-white shadow-lg rounded-lg p-6">
+              <h3 className="text-xl font-bold text-center mb-4">Features</h3>
+              <div className="space-y-4">
+                <button
+                  onClick={() => navigate("/cv", { state: userData })}
+                  className="flex items-center gap-4 p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+                >
+                  <img
+                    src="https://i.postimg.cc/4ys9g4qK/image.png"
+                    alt="CV Maker Icon"
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div>
+                    <h4 className="font-bold text-lg">Make CV</h4>
+                    <p className="text-sm text-gray-600">
+                      Create and customize your CV
+                    </p>
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ) : (
         <div>Loading...</div>

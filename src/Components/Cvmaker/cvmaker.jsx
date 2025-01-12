@@ -1,303 +1,175 @@
-import React, { useState, useEffect } from 'react';
-import { db, auth } from '../../firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
-import { jsPDF } from 'jspdf';
+import React, { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
-const Cvmaker = () => {
-  const navigate = useNavigate();
-
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    address: '',
-    photo: '', // User photo URL from Firestore Storage
+const CVMaker = () => {
+  const [userData, setUserData] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState({});
+  const [sections, setSections] = useState({
+    education: [],
+    skills: [],
+    projects: [],
   });
 
-  const [education, setEducation] = useState([
-    { degree: "Bachelor's Degree", school: 'University Name', year: '2018 - 2022' }
-  ]);
-
-  const [skills, setSkills] = useState(['JavaScript', 'React']);
-  const [projects, setProjects] = useState([{ title: 'Project 1', description: 'Description of Project 1' }]);
-
-  const [isEditing, setIsEditing] = useState(false);
-
-  // Fetch user data from Firestore
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
       if (user) {
         try {
-          const docRef = doc(db, 'users', user.uid);
+          const docRef = doc(db, "users", user.uid);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             setUserData(docSnap.data());
+            setEditData(docSnap.data());
           } else {
-            console.error('No user data found!');
+            console.error("No user data found!");
           }
         } catch (error) {
-          console.error('Error fetching user data:', error.message);
+          console.error("Error fetching user data:", error.message);
         }
-      } else {
-        navigate('/login');
       }
     };
 
     fetchUserData();
-  }, [navigate]);
+  }, []);
 
-  // Download CV as PDF using jsPDF
-  const downloadPDF = () => {
-    const doc = new jsPDF();
+  const handleDownloadPDF = async () => {
+    const cvElement = document.getElementById("cv-preview");
+    const canvas = await html2canvas(cvElement);
+    const imgData = canvas.toDataURL("image/png");
 
-    // Add User Photo (if exists)
-    const photo = userData.photo || 'https://via.placeholder.com/150';
-    const img = new Image();
-    img.src = photo;
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-    img.onload = () => {
-      // Add Image to PDF (with specific coordinates and size)
-      doc.addImage(img, 'JPEG', 20, 20, 50, 50); // Adjust the size and position as needed
-
-      // Set up font size and other properties
-      doc.setFontSize(16);
-      doc.text(20, 80, `Name: ${userData.name}`);
-      doc.text(20, 90, `Email: ${userData.email}`);
-      doc.text(20, 100, `Address: ${userData.address}`);
-
-      // Education section
-      doc.text(20, 120, 'Education:');
-      education.forEach((edu, index) => {
-        doc.text(20, 130 + index * 10, `${edu.degree} - ${edu.school} (${edu.year})`);
-      });
-
-      // Skills section
-      doc.text(20, 160, 'Skills:');
-      skills.forEach((skill, index) => {
-        doc.text(20, 170 + index * 10, skill);
-      });
-
-      // Projects section
-      doc.text(20, 200, 'Projects:');
-      projects.forEach((project, index) => {
-        doc.text(20, 210 + index * 10, `${project.title}: ${project.description}`);
-      });
-
-      // Save the PDF
-      doc.save('cv.pdf');
-    };
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("CV.pdf");
   };
 
-  // Handle adding new section (Education, Skills, Projects)
-  const addSection = (sectionType) => {
-    if (sectionType === 'education') {
-      setEducation([...education, { degree: '', school: '', year: '' }]);
-    } else if (sectionType === 'skills') {
-      setSkills([...skills, '']);
-    } else if (sectionType === 'projects') {
-      setProjects([...projects, { title: '', description: '' }]);
-    }
-  };
-
-  // Handle updates to dynamic fields (Education, Skills, Projects)
-  const updateSection = (sectionType, index, field, value) => {
-    if (sectionType === 'education') {
-      const updatedEducation = [...education];
-      updatedEducation[index][field] = value;
-      setEducation(updatedEducation);
-    } else if (sectionType === 'skills') {
-      const updatedSkills = [...skills];
-      updatedSkills[index] = value;
-      setSkills(updatedSkills);
-    } else if (sectionType === 'projects') {
-      const updatedProjects = [...projects];
-      updatedProjects[index][field] = value;
-      setProjects(updatedProjects);
-    }
+  const handleAddSection = (type) => {
+    const newSections = { ...sections };
+    newSections[type].push({ title: "", description: "" });
+    setSections(newSections);
   };
 
   return (
-    <div className="bg-gray-100 p-8 font-sans">
-      <div
-        id="cv-container"
-        className={`bg-white p-8 rounded-lg shadow-lg ${isEditing ? '' : 'cv-view-mode'}`}
-      >
-        {/* CV Header Section */}
-        <div className="flex items-center mb-8">
-          <img
-            src={userData.photo || 'https://via.placeholder.com/150'}
-            alt="User Photo"
-            className="w-32 h-32 rounded-full border-4 border-gray-300"
-          />
-          <div className="ml-6">
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={userData.name}
-                  onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                  placeholder="Name"
-                  className="w-full p-2 mb-2 border rounded-md"
-                />
-                <input
-                  type="email"
-                  value={userData.email}
-                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                  placeholder="Email"
-                  className="w-full p-2 mb-2 border rounded-md"
-                />
-                <input
-                  type="text"
-                  value={userData.address}
-                  onChange={(e) => setUserData({ ...userData, address: e.target.value })}
-                  placeholder="Address"
-                  className="w-full p-2 mb-2 border rounded-md"
-                />
-              </>
+    <div className="container mx-auto p-4">
+      {!isEditing ? (
+        <div id="cv-preview" className="bg-white shadow-md p-6">
+          {/* User Photo */}
+          <div className="text-center">
+            <img
+              src={userData.photo || "/default-profile.png"}
+              alt="Profile"
+              className="w-32 h-32 rounded-full mx-auto"
+            />
+            <h1 className="text-3xl font-bold">{userData.name || "Your Name"}</h1>
+            <p className="text-gray-600">{userData.email || "you@example.com"}</p>
+          </div>
+
+          {/* Education Section */}
+          <section className="mt-6">
+            <h2 className="text-xl font-semibold border-b pb-2">Education</h2>
+            {sections.education.length > 0 ? (
+              sections.education.map((edu, idx) => (
+                <div key={idx} className="mt-4">
+                  <h3 className="font-bold">{edu.title || "Degree"}</h3>
+                  <p className="text-gray-600">{edu.description || "School Name"}</p>
+                </div>
+              ))
             ) : (
-              <>
-                <h1 className="text-3xl font-bold text-gray-800">{userData.name || 'User Name'}</h1>
-                <p className="text-lg text-gray-600">{userData.email || 'user@example.com'}</p>
-                <p className="text-lg text-gray-600">{userData.address || '1234 Elm St, Springfield'}</p>
-              </>
+              <p className="text-gray-500">No education details available.</p>
             )}
+          </section>
+
+          {/* Skills Section */}
+          <section className="mt-6">
+            <h2 className="text-xl font-semibold border-b pb-2">Skills</h2>
+            {sections.skills.length > 0 ? (
+              sections.skills.map((skill, idx) => (
+                <div key={idx} className="mt-4">
+                  <p className="text-gray-600">{skill || "Skill Name"}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">No skills listed.</p>
+            )}
+          </section>
+
+          {/* Projects Section */}
+          <section className="mt-6">
+            <h2 className="text-xl font-semibold border-b pb-2">Projects</h2>
+            {sections.projects.length > 0 ? (
+              sections.projects.map((proj, idx) => (
+                <div key={idx} className="mt-4">
+                  <h3 className="font-bold">{proj.title || "Project Name"}</h3>
+                  <p className="text-gray-600">{proj.description || "Project Description"}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">No projects listed.</p>
+            )}
+          </section>
+
+          {/* Buttons */}
+          <div className="mt-6 flex justify-between">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded"
+            >
+              Edit CV
+            </button>
+            <button
+              onClick={handleDownloadPDF}
+              className="bg-green-500 text-white px-4 py-2 rounded"
+            >
+              Download PDF
+            </button>
           </div>
         </div>
-
-        {/* Education Section */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Education</h2>
-          {education.map((edu, index) => (
-            <div key={index} className="p-4 border rounded-lg mb-4 bg-gray-50">
-              {isEditing ? (
-                <>
-                  <input
-                    type="text"
-                    value={edu.degree}
-                    onChange={(e) => updateSection('education', index, 'degree', e.target.value)}
-                    placeholder="Degree"
-                    className="w-full p-2 mb-2 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    value={edu.school}
-                    onChange={(e) => updateSection('education', index, 'school', e.target.value)}
-                    placeholder="School"
-                    className="w-full p-2 mb-2 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    value={edu.year}
-                    onChange={(e) => updateSection('education', index, 'year', e.target.value)}
-                    placeholder="Year"
-                    className="w-full p-2 border rounded-md"
-                  />
-                </>
-              ) : (
-                <>
-                  <p><strong>{edu.degree}</strong> - {edu.school} ({edu.year})</p>
-                </>
-              )}
+      ) : (
+        <div className="bg-white shadow-md p-6">
+          <h2 className="text-xl font-semibold">Edit CV</h2>
+          {/* Editable Form */}
+          <form>
+            {/* Name */}
+            <div className="mt-4">
+              <label className="block text-sm font-medium">Name</label>
+              <input
+                type="text"
+                className="w-full border rounded px-4 py-2"
+                value={editData.name || ""}
+                onChange={(e) =>
+                  setEditData({ ...editData, name: e.target.value })
+                }
+              />
             </div>
-          ))}
-          {isEditing && (
+            {/* Education */}
+            <div className="mt-6">
+              <button
+                onClick={() => handleAddSection("education")}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Add Education
+              </button>
+            </div>
+          </form>
+          {/* Buttons */}
+          <div className="mt-6 flex justify-between">
             <button
-              onClick={() => addSection('education')}
-              className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+              onClick={() => setIsEditing(false)}
+              className="bg-gray-500 text-white px-4 py-2 rounded"
             >
-              Add Education
+              Cancel
             </button>
-          )}
-        </section>
-
-        {/* Skills Section */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Skills</h2>
-          <div className="flex flex-wrap gap-4 mb-4">
-            {skills.map((skill, index) => (
-              <div key={index} className="w-full md:w-1/2 lg:w-1/3">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={skill}
-                    onChange={(e) => updateSection('skills', index, null, e.target.value)}
-                    placeholder="Skill"
-                    className="w-full p-2 border rounded-md bg-gray-50"
-                  />
-                ) : (
-                  <span className="inline-block p-2 bg-gray-200 text-gray-800 rounded-lg">{skill}</span>
-                )}
-              </div>
-            ))}
           </div>
-          {isEditing && (
-            <button
-              onClick={() => addSection('skills')}
-              className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-            >
-              Add Skill
-            </button>
-          )}
-        </section>
-
-        {/* Projects Section */}
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Projects</h2>
-          {projects.map((project, index) => (
-            <div key={index} className="p-4 border rounded-lg mb-4 bg-gray-50">
-              {isEditing ? (
-                <>
-                  <input
-                    type="text"
-                    value={project.title}
-                    onChange={(e) => updateSection('projects', index, 'title', e.target.value)}
-                    placeholder="Project Title"
-                    className="w-full p-2 mb-2 border rounded-md"
-                  />
-                  <textarea
-                    value={project.description}
-                    onChange={(e) => updateSection('projects', index, 'description', e.target.value)}
-                    placeholder="Project Description"
-                    className="w-full p-2 mb-2 border rounded-md"
-                  />
-                </>
-              ) : (
-                <>
-                  <h3 className="font-semibold text-gray-700">{project.title}</h3>
-                  <p className="text-gray-600">{project.description}</p>
-                </>
-              )}
-            </div>
-          ))}
-          {isEditing && (
-            <button
-              onClick={() => addSection('projects')}
-              className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-            >
-              Add Project
-            </button>
-          )}
-        </section>
-
-        {/* Edit/Preview & Download Buttons */}
-        <div className="flex justify-between">
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600"
-          >
-            {isEditing ? 'Preview CV' : 'Edit CV'}
-          </button>
-          <button
-            onClick={downloadPDF}
-            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-          >
-            Download PDF
-          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 };
 
-export default Cvmaker;
+export default CVMaker;
